@@ -57,11 +57,6 @@ export default function Connexion() {
             Connectez-vous à votre espace personnel pour explorer le monde du
             cinéma et des séries avec <span className="font-bold">En Scène</span>.
           </p>
-          <img
-            src="/images/login_cinema.svg"
-            alt="Illustration cinéma"
-            className="w-full max-w-sm mx-auto"
-          />
         </div>
       </div>
 
