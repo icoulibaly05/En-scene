@@ -6,6 +6,7 @@ export default function Header() {
     { name: "Accueil", href: "/" },
     { name: "À propos", href: "/a-propos" },
     { name: "Contact", href: "/contact" },
+    { name: "Statistiques", href: "/stats" },
   ];
 
   return (
