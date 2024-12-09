@@ -1,0 +1,52 @@
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Movie {
+  id          String     @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  title       String     // Titre du film ou de la série
+  genre       String[]   // Un tableau pour permettre plusieurs genres
+  year        Int        // Année de sortie
+  posterUrl   String?    // URL de l'affiche (optionnel)
+  description String?    // Description du film ou de la série (optionnel)
+  type        MediaType  // Film ou Série
+  comments    Comment[]  // Relation avec les commentaires
+  views       Int        @default(0) // Nombre de vues pour le dashboard
+}
+
+model Comment {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt   DateTime @default(now())
+  content     String   // Contenu du commentaire
+  author      User     @relation(fields: [authorId], references: [id])
+  authorId    String   @db.ObjectId
+  movie       Movie    @relation(fields: [movieId], references: [id])
+  movieId     String   @db.ObjectId
+}
+
+model User {
+  id          String     @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt   DateTime   @default(now())
+  email       String     @unique // Email unique pour chaque utilisateur
+  name        String     // Nom de l'utilisateur
+  password    String     // Mot de passe pour la connexion
+  role        Role       @default(USER) // Rôle (USER ou ADMIN)
+  comments    Comment[]  // Relation avec les commentaires
+}
+
+enum MediaType {
+  FILM
+  SERIE
+}
+
+enum Role {
+  USER
+  ADMIN
+}

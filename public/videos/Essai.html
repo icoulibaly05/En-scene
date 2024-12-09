@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Page de Connexion</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      /* Style de la vidéo */
+      .video-background {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        filter: blur(3px);
+      }
+
+      .video-background video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      /* Contenu par-dessus la vidéo */
+      .content {
+        position: relative;
+        z-index: 1;
+        color: white;
+        text-align: center;
+        padding: 20px;
+      }
+
+      .connexion-container {
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .connexion-form {
+        background: rgba(255, 255, 255, 0.9);
+        padding: 2rem;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        width: 100%;
+        max-width: 400px;
+      }
+
+      .form-group {
+        margin-bottom: 1.5rem;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 0.5rem;
+        color: #333;
+      }
+
+      .form-group input {
+        width: 100%;
+        padding: 0.8rem;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        font-size: 1rem;
+      }
+
+      .btn-connexion {
+        width: 100%;
+        padding: 1rem;
+        background: #4caf50;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        font-size: 1.1rem;
+        cursor: pointer;
+        transition: background 0.3s ease;
+      }
+
+      .btn-connexion:hover {
+        background: #45a049;
+      }
+
+      h2 {
+        text-align: center;
+        margin-bottom: 2rem;
+        color: #333;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="video-background">
+      <video id="videoPlayer" autoplay muted>
+        <source src="2_chiots.mp4" type="video/mp4" />
+        <source src="chiot.mp4" type="video/mp4" />
+        Votre navigateur ne supporte pas la vidéo HTML5.
+      </video>
+    </div>
+
+    <div class="connexion-container">
+      <form class="connexion-form">
+        <h2>Connexion</h2>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" required />
+        </div>
+        <div class="form-group">
+          <label for="password">Mot de passe</label>
+          <input type="password" id="password" name="password" required />
+        </div>
+        <button type="submit" class="btn-connexion">Se connecter</button>
+      </form>
+    </div>
+
+    <script>
+      const video = document.getElementById("videoPlayer");
+      const sources = Array.from(video.getElementsByTagName("source"));
+      let currentSource = 0;
+
+      video.addEventListener("ended", function () {
+        currentSource = (currentSource + 1) % sources.length;
+        video.src = sources[currentSource].src;
+        video.load();
+        video.play().catch((e) => console.error("Erreur de lecture:", e));
+      });
+    </script>
+  </body>
+</html>
