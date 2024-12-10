@@ -1,34 +1,28 @@
 import { NextResponse } from "next/server";
-import { prisma } from "@/app/db/prisma";
+import { MongoClient } from "mongodb";
 
-export async function POST(req: Request) {
+// Connexion à MongoDB
+const uri = "mongodb+srv://souleymane4:azerty@physique.v64i6.mongodb.net/blog?retryWrites=true&w=majority";
+
+export async function GET() {
+  const client = new MongoClient(uri); // Initialisation du client MongoDB
+
   try {
-    const body = await req.json();
-    const { title, content, category, authorId } = body;
+    // Connexion à la base de données
+    await client.connect();
+    const db = client.db("blog"); // Accès à la base de données "blog"
+    const posts = await db.collection("Post").find({}).toArray(); // Récupération de tous les documents de la collection "Post"
 
-    if (!title || !content || !category || !authorId) {
-      return NextResponse.json(
-        { error: "Titre, contenu, catégorie et authorId sont requis." },
-        { status: 400 }
-      );
-    }
-
-    const post = await prisma.post.create({
-      data: {
-        title,
-        content,
-        category,
-        views: 0,
-        authorId,
-      },
-    });
-
-    return NextResponse.json({ message: "Post créé avec succès", post });
+    // Retour des données au format JSON
+    return NextResponse.json({ posts });
   } catch (error) {
-    console.error("Erreur API :", error);
+    console.error("Erreur lors de la récupération des posts :", error);
     return NextResponse.json(
-      { error: "Erreur lors de la création du post." },
+      { error: "Erreur lors de la récupération des posts" },
       { status: 500 }
     );
+  } finally {
+    // Fermeture de la connexion à MongoDB
+    await client.close();
   }
 }
