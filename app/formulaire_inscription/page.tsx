@@ -11,13 +11,7 @@ export default function Formulaire() {
     email: "",
     password: "",
     role: "USER",
-    postTitle: "",
-    postContent: "",
-    postSlug: "",
-    commentContent: "",
   });
-
-  const [message, setMessage] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -31,7 +25,7 @@ export default function Formulaire() {
 
       const result = await response.json();
       if (response.ok) {
-        toast.success("Données insérées avec succès !");
+        toast.success("Utilisateur créé avec succès !");
         setTimeout(() => {
           window.location.href = "http://localhost:3000"; // Redirection
         }, 2000);
@@ -58,11 +52,8 @@ export default function Formulaire() {
       <ToastContainer />
       <div className="bg-gradient-to-b from-gray-900 to-gray-800 p-10 rounded-3xl shadow-lg w-[90%] sm:w-[30rem] md:w-[35rem] lg:w-[40rem]">
         <h1 className="text-3xl font-extrabold text-center mb-6 text-purple-400">
-          🎬 Créez Votre Publication
+          📝 Inscription Utilisateur
         </h1>
-        {message && (
-          <div className="text-red-500 text-sm text-center mb-4">{message}</div>
-        )}
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Nom */}
           <div className="relative">
@@ -145,32 +136,12 @@ export default function Formulaire() {
             </select>
           </div>
 
-          {/* Titre du Post */}
-          <div className="relative">
-            <label
-              htmlFor="postTitle"
-              className="absolute -top-2 left-4 bg-gray-800 px-2 text-sm text-purple-300"
-            >
-              Titre du Post
-            </label>
-            <input
-              type="text"
-              id="postTitle"
-              name="postTitle"
-              value={formData.postTitle}
-              onChange={handleChange}
-              required
-              className="w-full px-4 py-3 bg-gray-800 border border-purple-500 rounded-lg text-gray-200 focus:outline-none focus:ring-2 focus:ring-purple-400"
-              placeholder="Titre de votre post"
-            />
-          </div>
-
           {/* Bouton d'envoi */}
           <button
             type="submit"
             className="w-full bg-purple-600 text-white py-3 rounded-lg hover:bg-purple-700 transition-transform duration-200 hover:scale-105 font-semibold"
           >
-            Publier 🎥
+            S'inscrire 🚀
           </button>
         </form>
       </div>
