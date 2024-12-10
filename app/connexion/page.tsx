@@ -10,7 +10,6 @@ export default function Connexion() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [error, setError] = useState("");
   const router = useRouter();
 
   const togglePasswordVisibility = () => {
@@ -19,10 +18,10 @@ export default function Connexion() {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    setError("");
 
     try {
-      const response = await fetch("/api/auth/login", {
+      // Appel à l'API (facultatif dans ce cas, car la redirection est inconditionnelle)
+      await fetch("/api/auth/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -30,19 +29,12 @@ export default function Connexion() {
         body: JSON.stringify({ email, password }),
       });
 
-      const data = await response.json();
-
-      if (!response.ok) {
-        setError(data.message);
-      } else {
-        toast.success(`Bonjour, ${data.user.name}!`);
-        localStorage.setItem("userName", data.user.name);
-        localStorage.setItem("token", data.token);
-        router.push("/");
-      }
+      // Redirection inconditionnelle
+      router.push("http://localhost:3000/accueil");
     } catch (error) {
       console.error("Erreur lors de la soumission:", error);
-      setError("Une erreur est survenue. Veuillez réessayer.");
+      // Même en cas d'erreur, on redirige
+      router.push("http://localhost:3000/accueil");
     }
   };
 
@@ -66,9 +58,6 @@ export default function Connexion() {
           <h2 className="text-2xl font-bold text-center text-blue-800 mb-6">
             Connexion
           </h2>
-          {error && (
-            <div className="text-red-600 text-sm text-center mb-4">{error}</div>
-          )}
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Email */}
             <div>
