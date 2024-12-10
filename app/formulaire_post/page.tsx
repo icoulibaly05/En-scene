@@ -10,6 +10,7 @@ export default function CreatePost() {
     title: "",
     content: "",
     category: "Film",
+    authorId: "author-id-placeholder", // Remplacez par la logique de récupération de l'ID utilisateur
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -19,17 +20,19 @@ export default function CreatePost() {
       const response = await fetch("/api/posts", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData), // Envoie les données en JSON
+        body: JSON.stringify(formData),
       });
 
-      const result = await response.json();
       if (response.ok) {
+        const result = await response.json();
         toast.success("Post créé avec succès !");
         setTimeout(() => {
-          window.location.href = "/blog"; // Redirection vers la page des blogs
+          window.location.href = "/blog"; // Redirection
         }, 2000);
       } else {
-        toast.error(result.error || "Une erreur est survenue.");
+        const errorText = await response.text();
+        console.error("Erreur de l'API :", errorText);
+        toast.error("Erreur de l'API. Consultez la console.");
       }
     } catch (error) {
       console.error("Erreur lors de la soumission :", error);

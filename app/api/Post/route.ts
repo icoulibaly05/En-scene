@@ -3,10 +3,11 @@ import { prisma } from "@/app/db/prisma";
 
 export async function POST(req: Request) {
   try {
-    const body = await req.json(); // Récupère les données en JSON
+    // Récupérer les données envoyées
+    const body = await req.json();
     const { title, content, category, authorId } = body;
 
-    // Vérification des champs requis
+    // Validation des données
     if (!title || !content || !category || !authorId) {
       return NextResponse.json(
         { error: "Titre, contenu, catégorie et authorId sont requis." },
@@ -14,14 +15,14 @@ export async function POST(req: Request) {
       );
     }
 
-    // Ajoute un nouveau post dans la base de données
+    // Créer un post dans la base de données
     const post = await prisma.post.create({
       data: {
         title,
         content,
         category,
-        views: 0,
-        authorId, // Utilise l'authorId fourni dans la requête
+        views: 0, // Par défaut, les vues sont à 0
+        authorId, // Relie le post à un utilisateur
       },
     });
 
