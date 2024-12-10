@@ -10,7 +10,7 @@ export default function CreatePost() {
     title: "",
     content: "",
     category: "Film",
-    authorId: "author-id-placeholder", // Remplacez par la logique de récupération de l'ID utilisateur
+    authorId: "author-id-placeholder", // À remplacer par l'ID réel de l'utilisateur
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -27,7 +27,7 @@ export default function CreatePost() {
         const result = await response.json();
         toast.success("Post créé avec succès !");
         setTimeout(() => {
-          window.location.href = "/blog"; // Redirection
+          window.location.href = "/blog"; // Redirection vers la page des blogs
         }, 2000);
       } else {
         const errorText = await response.text();

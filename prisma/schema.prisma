@@ -32,6 +32,7 @@ model Post {
   authorId    String   @db.ObjectId // Référence à l'utilisateur qui a créé le post
   views       Int      @default(0)  // Nombre de vues du post
   comments    Comment[] // Liste des commentaires associés
+  imageUrl    String?  // URL de l'image associée au post (optionnel)
 }
 
 model Comment {
